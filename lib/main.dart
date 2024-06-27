@@ -90,8 +90,12 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
                   _operation = newValue!;
                 });
               },
-              items: <String>['Addition', 'Subtraktion', 'Multiplikation', 'Division']
-                  .map<DropdownMenuItem<String>>((String value) {
+              items: <String>[
+                'Addition',
+                'Subtraktion',
+                'Multiplikation',
+                'Division'
+              ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
