@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 void main() {
-  runApp(const MathTaskGeneratorApp());
+  runApp(MathTaskGeneratorApp());
 }
 
 class MathTaskGeneratorApp extends StatelessWidget {
-  const MathTaskGeneratorApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,23 +13,21 @@ class MathTaskGeneratorApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MathTaskHomePage(),
+      home: MathTaskHomePage(),
     );
   }
 }
 
 class MathTaskHomePage extends StatefulWidget {
-  const MathTaskHomePage({super.key});
-
   @override
   _MathTaskHomePageState createState() => _MathTaskHomePageState();
 }
 
 class _MathTaskHomePageState extends State<MathTaskHomePage> {
   String _operation = 'Addition';
-  late int _num1;
-  late int _num2;
-  late double _answer;
+  int? _num1;
+  int? _num2;
+  double? _answer;
   final TextEditingController _controller = TextEditingController();
   String _resultMessage = '';
 
@@ -43,17 +39,17 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
     setState(() {
       switch (_operation) {
         case 'Addition':
-          _answer = (_num1 + _num2).toDouble();
+          _answer = (_num1! + _num2!).toDouble();
           break;
         case 'Subtraktion':
-          _answer = (_num1 - _num2).toDouble();
+          _answer = (_num1! - _num2!).toDouble();
           break;
         case 'Multiplikation':
-          _answer = (_num1 * _num2).toDouble();
+          _answer = (_num1! * _num2!).toDouble();
           break;
         case 'Division':
-          _num1 = _num1 * _num2; // Ensure that _num1 is divisible by _num2
-          _answer = _num1 / _num2;
+          _num1 = _num1! * _num2!;
+          _answer = _num1! / _num2!;
           break;
       }
     });
@@ -81,7 +77,7 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Math Task Generator'),
+        title: Text('Math Task Generator'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -89,9 +85,9 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
           children: [
             DropdownButton<String>(
               value: _operation,
-              onChanged: (String newValue) {
+              onChanged: (String? newValue) {
                 setState(() {
-                  _operation = newValue;
+                  _operation = newValue!;
                 });
               },
               items: <String>['Addition', 'Subtraktion', 'Multiplikation', 'Division']
@@ -104,27 +100,27 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
             ),
             ElevatedButton(
               onPressed: _generateTask,
-              child: const Text('Aufgabe Generieren'),
+              child: Text('Aufgabe Generieren'),
             ),
             if (_num1 != null && _num2 != null)
               Text(
                 '$_num1 ${_operationSymbol(_operation)} $_num2',
-                style: const TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24),
               ),
             TextField(
               controller: _controller,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Deine Antwort',
               ),
             ),
             ElevatedButton(
               onPressed: _checkAnswer,
-              child: const Text('Antwort Überprüfen'),
+              child: Text('Antwort Überprüfen'),
             ),
             Text(
               _resultMessage,
-              style: const TextStyle(fontSize: 18, color: Colors.red),
+              style: TextStyle(fontSize: 18, color: Colors.red),
             ),
           ],
         ),
