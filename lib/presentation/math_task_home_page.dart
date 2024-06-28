@@ -32,8 +32,11 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
     final isCorrect = _currentTask!.checkAnswer(userAnswer);
 
     setState(() {
-      _resultMessage = isCorrect ? 'Richtig!' : 'Falsch! Die richtige Antwort ist ${_currentTask!.answer}.';
-      _history.insert(0, '${_currentTask!.getTaskString()} = $userAnswer (${isCorrect ? 'Richtig' : 'Falsch'})');
+      _resultMessage = isCorrect
+          ? 'Richtig!'
+          : 'Falsch! Die richtige Antwort ist ${_currentTask!.answer}.';
+      _history.insert(0,
+          '${_currentTask!.getTaskString()} = $userAnswer (${isCorrect ? 'Richtig' : 'Falsch'})');
       _controller.clear();
     });
   }
@@ -42,8 +45,9 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mathe Aufgaben Generator',
-        style: TextStyle(fontFamily: 'PermanentMarker'),
+        title: Text(
+          'Mathe Aufgaben Generator',
+          style: TextStyle(fontFamily: 'PermanentMarker'),
         ),
       ),
       body: Padding(
@@ -114,7 +118,8 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
                       _history[index],
                       style: TextStyle(
                         fontSize: 18,
-                        fontFamily: 'PermanentMarker', // Benutzerdefinierte Schriftart
+                        fontFamily:
+                            'PermanentMarker', // Benutzerdefinierte Schriftart
                       ),
                     ),
                   );
