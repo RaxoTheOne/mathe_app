@@ -45,7 +45,8 @@ class MathTaskViewModel extends ChangeNotifier {
     }
 
     _resultMessage = _checkAnswerUseCase(_currentTask!, answer);
-    _history.insert(0, '${_currentTask!.getTaskString()} = $answer (${_resultMessage == 'Richtig!' ? 'Richtig' : 'Falsch'})');
+    _history.insert(0,
+        '${_currentTask!.getTaskString()} = $answer (${_resultMessage == 'Richtig!' ? 'Richtig' : 'Falsch'})');
     _controller.clear();
     notifyListeners();
   }
