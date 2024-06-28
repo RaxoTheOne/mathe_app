@@ -45,6 +45,7 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.lightBlue,
         title: Text(
           'Mathe Aufgaben Generator',
           style: TextStyle(fontFamily: 'PermanentMarker'),
