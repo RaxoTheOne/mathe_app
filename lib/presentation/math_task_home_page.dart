@@ -11,29 +11,30 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
   String _operation = 'Addition';
   MathTask? _currentTask;
   final TextEditingController _controller = TextEditingController();
+  final List<String> _history = [];
   String _resultMessage = '';
+  final _formKey = GlobalKey<FormState>();
 
   void _generateTask() {
     setState(() {
       _currentTask = MathTaskService.generateTask(_operation);
+      _controller.clear();
+      _resultMessage = '';
     });
   }
 
   void _checkAnswer() {
-    final userAnswer = double.tryParse(_controller.text);
-    if (userAnswer == null) {
-      setState(() {
-        _resultMessage = 'Bitte gib eine gültige Zahl ein.';
-      });
+    if (_formKey.currentState?.validate() != true) {
       return;
     }
 
+    final userAnswer = double.parse(_controller.text);
+    final isCorrect = _currentTask!.checkAnswer(userAnswer);
+
     setState(() {
-      if (_currentTask != null && _currentTask!.checkAnswer(userAnswer)) {
-        _resultMessage = 'Richtig!';
-      } else {
-        _resultMessage = 'Falsch! Die richtige Antwort ist ${_currentTask!.answer}.';
-      }
+      _resultMessage = isCorrect ? 'Richtig!' : 'Falsch! Die richtige Antwort ist ${_currentTask!.answer}.';
+      _history.insert(0, '${_currentTask!.getTaskString()} = $userAnswer (${isCorrect ? 'Richtig' : 'Falsch'})');
+      _controller.clear();
     });
   }
 
@@ -75,11 +76,23 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
                 _currentTask!.getTaskString(),
                 style: TextStyle(fontSize: 24),
               ),
-            TextField(
-              controller: _controller,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Deine Antwort',
+            Form(
+              key: _formKey,
+              child: TextFormField(
+                controller: _controller,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Deine Antwort',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Bitte gib eine gültige Zahl ein.';
+                  }
+                  if (double.tryParse(value) == null) {
+                    return 'Bitte gib eine gültige Zahl ein.';
+                  }
+                  return null;
+                },
               ),
             ),
             ElevatedButton(
@@ -89,6 +102,16 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
             Text(
               _resultMessage,
               style: TextStyle(fontSize: 18, color: Colors.red),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _history.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(_history[index]),
+                  );
+                },
+              ),
             ),
           ],
         ),
