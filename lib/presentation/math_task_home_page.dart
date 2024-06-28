@@ -32,11 +32,8 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
     final isCorrect = _currentTask!.checkAnswer(userAnswer);
 
     setState(() {
-      _resultMessage = isCorrect
-          ? 'Richtig!'
-          : 'Falsch! Die richtige Antwort ist ${_currentTask!.answer}.';
-      _history.insert(0,
-          '${_currentTask!.getTaskString()} = $userAnswer (${isCorrect ? 'Richtig' : 'Falsch'})');
+      _resultMessage = isCorrect ? 'Richtig!' : 'Falsch! Die richtige Antwort ist ${_currentTask!.answer}.';
+      _history.insert(0, '${_currentTask!.getTaskString()} = $userAnswer (${isCorrect ? 'Richtig' : 'Falsch'})');
       _controller.clear();
     });
   }
@@ -77,7 +74,7 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
             if (_currentTask != null)
               Text(
                 _currentTask!.getTaskString(),
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24, fontFamily: 'Rubik'),
               ),
             Form(
               key: _formKey,
@@ -111,7 +108,13 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
                 itemCount: _history.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(_history[index]),
+                    title: Text(
+                      _history[index],
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Rubik', // Benutzerdefinierte Schriftart
+                      ),
+                    ),
                   );
                 },
               ),
