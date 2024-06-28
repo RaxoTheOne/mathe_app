@@ -42,7 +42,9 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mathe Aufgaben Generator'),
+        title: Text('Mathe Aufgaben Generator',
+        style: TextStyle(fontFamily: 'PermanentMarker'),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -74,7 +76,7 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
             if (_currentTask != null)
               Text(
                 _currentTask!.getTaskString(),
-                style: TextStyle(fontSize: 24, fontFamily: 'Rubik'),
+                style: TextStyle(fontSize: 24, fontFamily: 'PermanentMarker'),
               ),
             Form(
               key: _formKey,
@@ -112,7 +114,7 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
                       _history[index],
                       style: TextStyle(
                         fontSize: 18,
-                        fontFamily: 'Rubik', // Benutzerdefinierte Schriftart
+                        fontFamily: 'PermanentMarker', // Benutzerdefinierte Schriftart
                       ),
                     ),
                   );

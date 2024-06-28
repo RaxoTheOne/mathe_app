@@ -32,3 +32,6 @@ flutter:
         - asset: assets/fonts/Rubik-BoldItalic.ttf
           weight: 700
           style: italic
+    - family: PermanentMarker
+      fonts: 
+        - asset: assets/fonts/PermanentMarker-Regular.ttf
