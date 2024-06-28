@@ -1,48 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mathe_app/domain/math_task.dart';
-import 'package:mathe_app/domain/math_task_service.dart';
+import 'package:provider/provider.dart';
+import 'package:mathe_app/ui/view_models/math_task_view_model.dart';
 
-class MathTaskHomePage extends StatefulWidget {
-  @override
-  _MathTaskHomePageState createState() => _MathTaskHomePageState();
-}
-
-class _MathTaskHomePageState extends State<MathTaskHomePage> {
-  String _operation = 'Addition';
-  MathTask? _currentTask;
-  final TextEditingController _controller = TextEditingController();
-  final List<String> _history = [];
-  String _resultMessage = '';
-  final _formKey = GlobalKey<FormState>();
-
-  void _generateTask() {
-    setState(() {
-      _currentTask = MathTaskService.generateTask(_operation);
-      _controller.clear();
-      _resultMessage = '';
-    });
-  }
-
-  void _checkAnswer() {
-    if (_formKey.currentState?.validate() != true) {
-      return;
-    }
-
-    final userAnswer = double.parse(_controller.text);
-    final isCorrect = _currentTask!.checkAnswer(userAnswer);
-
-    setState(() {
-      _resultMessage = isCorrect
-          ? 'Richtig!'
-          : 'Falsch! Die richtige Antwort ist ${_currentTask!.answer}.';
-      _history.insert(0,
-          '${_currentTask!.getTaskString()} = $userAnswer (${isCorrect ? 'Richtig' : 'Falsch'})');
-      _controller.clear();
-    });
-  }
-
+class MathTaskHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<MathTaskViewModel>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
@@ -56,11 +20,9 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
         child: Column(
           children: [
             DropdownButton<String>(
-              value: _operation,
+              value: viewModel.operation,
               onChanged: (String? newValue) {
-                setState(() {
-                  _operation = newValue!;
-                });
+                viewModel.setOperation(newValue!);
               },
               items: <String>[
                 'Addition',
@@ -75,18 +37,18 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
               }).toList(),
             ),
             ElevatedButton(
-              onPressed: _generateTask,
+              onPressed: viewModel.generateTask,
               child: Text('Aufgabe Generieren'),
             ),
-            if (_currentTask != null)
+            if (viewModel.currentTask != null)
               Text(
-                _currentTask!.getTaskString(),
+                viewModel.currentTask!.getTaskString(),
                 style: TextStyle(fontSize: 24, fontFamily: 'PermanentMarker'),
               ),
             Form(
-              key: _formKey,
+              key: viewModel.formKey,
               child: TextFormField(
-                controller: _controller,
+                controller: viewModel.controller,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: 'Deine Antwort',
@@ -103,24 +65,27 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
               ),
             ),
             ElevatedButton(
-              onPressed: _checkAnswer,
+              onPressed: () {
+                if (viewModel.formKey.currentState?.validate() ?? false) {
+                  viewModel.checkAnswer(viewModel.controller.text);
+                }
+              },
               child: Text('Antwort Überprüfen'),
             ),
             Text(
-              _resultMessage,
+              viewModel.resultMessage,
               style: TextStyle(fontSize: 18, color: Colors.red),
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: _history.length,
+                itemCount: viewModel.history.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(
-                      _history[index],
+                      viewModel.history[index],
                       style: TextStyle(
                         fontSize: 18,
-                        fontFamily:
-                            'PermanentMarker', // Benutzerdefinierte Schriftart
+                        fontFamily: 'PermanentMarker',
                       ),
                     ),
                   );
