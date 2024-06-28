@@ -9,7 +9,7 @@ class MathTaskGeneratorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Math Task Generator',
+      title: 'Mathe Aufgaben Generator',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -77,7 +77,7 @@ class _MathTaskHomePageState extends State<MathTaskHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Math Task Generator'),
+        title: Text('Mathe Aufgaben Generator'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
