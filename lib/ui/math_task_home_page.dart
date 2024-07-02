@@ -41,9 +41,31 @@ class MathTaskHomePage extends StatelessWidget {
               child: Text('Aufgabe Generieren'),
             ),
             if (viewModel.currentTask != null)
-              Text(
-                viewModel.currentTask!.getTaskString(),
-                style: TextStyle(fontSize: 24, fontFamily: 'PermanentMarker'),
+              AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  );
+                },
+                child: Column(
+                  key: ValueKey<String>(viewModel.currentTask!.getTaskString()),
+                  children: [
+                    Text(
+                      viewModel.currentTask!.num1.toString(),
+                      style: TextStyle(fontSize: 48, fontFamily: 'PermanentMarker'),
+                    ),
+                    Text(
+                      viewModel.currentTask!.getOperationSymbol(),
+                      style: TextStyle(fontSize: 48, fontFamily: 'PermanentMarker'),
+                    ),
+                    Text(
+                      viewModel.currentTask!.num2.toString(),
+                      style: TextStyle(fontSize: 48, fontFamily: 'PermanentMarker'),
+                    ),
+                  ],
+                ),
               ),
             Form(
               key: viewModel.formKey,

@@ -1,25 +1,32 @@
 class MathTask {
   final int num1;
   final int num2;
-  final double answer;
   final String operation;
+  double? answer;
 
   MathTask({
     required this.num1,
     required this.num2,
-    required this.answer,
     required this.operation,
-  });
-
-  String getTaskString() {
-    return '$num1 ${_operationSymbol(operation)} $num2';
+    this.answer,
+  }) {
+    switch (operation) {
+      case 'Addition':
+        answer = (num1 + num2).toDouble();
+        break;
+      case 'Subtraktion':
+        answer = (num1 - num2).toDouble();
+        break;
+      case 'Multiplikation':
+        answer = (num1 * num2).toDouble();
+        break;
+      case 'Division':
+        answer = num1 / num2;
+        break;
+    }
   }
 
-  bool checkAnswer(double userAnswer) {
-    return userAnswer == answer;
-  }
-
-  String _operationSymbol(String operation) {
+  String getOperationSymbol() {
     switch (operation) {
       case 'Addition':
         return '+';
@@ -32,5 +39,13 @@ class MathTask {
       default:
         return '';
     }
+  }
+
+  String getTaskString() {
+    return '$num1 ${getOperationSymbol()} $num2';
+  }
+
+  bool checkAnswer(double userAnswer) {
+    return userAnswer == answer;
   }
 }
