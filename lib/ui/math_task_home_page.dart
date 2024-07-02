@@ -54,15 +54,18 @@ class MathTaskHomePage extends StatelessWidget {
                   children: [
                     Text(
                       viewModel.currentTask!.num1.toString(),
-                      style: TextStyle(fontSize: 48, fontFamily: 'PermanentMarker'),
+                      style: TextStyle(
+                          fontSize: 48, fontFamily: 'PermanentMarker'),
                     ),
                     Text(
                       viewModel.currentTask!.getOperationSymbol(),
-                      style: TextStyle(fontSize: 48, fontFamily: 'PermanentMarker'),
+                      style: TextStyle(
+                          fontSize: 48, fontFamily: 'PermanentMarker'),
                     ),
                     Text(
                       viewModel.currentTask!.num2.toString(),
-                      style: TextStyle(fontSize: 48, fontFamily: 'PermanentMarker'),
+                      style: TextStyle(
+                          fontSize: 48, fontFamily: 'PermanentMarker'),
                     ),
                   ],
                 ),
